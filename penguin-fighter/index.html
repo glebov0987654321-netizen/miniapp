@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>Penguin Fighter</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Yandex Games SDK (relative path as required for Yandex hosting) -->
+  <script src="/sdk.js"></script>
+</head>
+<body>
+  <div id="loader">
+    <div class="loader-spinner"></div>
+    <div class="loader-text" id="loader-text">Загрузка...</div>
+  </div>
+
+  <div id="app" class="hidden">
+    <canvas id="game" width="1280" height="720"></canvas>
+
+    <!-- HUD -->
+    <div id="hud" class="hidden">
+      <div class="hud-row">
+        <div class="hp-bar"><div class="hp-fill" id="hp-fill"></div></div>
+        <div class="coin-counter">
+          <span class="coin-icon">●</span>
+          <span id="coin-count">0</span>
+        </div>
+        <div class="level-label" id="level-label">Уровень 1</div>
+      </div>
+    </div>
+
+    <!-- Touch controls (mobile) -->
+    <div id="touch-controls" class="hidden">
+      <div class="touch-left">
+        <button class="tbtn" id="btn-left">◀</button>
+        <button class="tbtn" id="btn-right">▶</button>
+      </div>
+      <div class="touch-right">
+        <button class="tbtn" id="btn-jump">▲</button>
+        <button class="tbtn tbtn-attack" id="btn-attack">⚡</button>
+      </div>
+    </div>
+
+    <!-- Menu screen -->
+    <div id="menu" class="screen">
+      <div class="screen-content">
+        <h1 class="title">PENGUIN FIGHTER</h1>
+        <div class="subtitle" id="menu-subtitle">Отряд пингвинов против кубических шахтёров</div>
+        <button class="btn btn-primary" id="btn-play">ИГРАТЬ</button>
+        <button class="btn" id="btn-shop">МАГАЗИН</button>
+        <button class="btn btn-small" id="btn-lang">EN / RU</button>
+        <div class="hint" id="menu-hint">Стрелки или A/D — движение, Space — удар, W — прыжок</div>
+      </div>
+    </div>
+
+    <!-- Level intro screen -->
+    <div id="level-intro" class="screen hidden">
+      <div class="screen-content">
+        <div class="level-big" id="level-intro-num">1</div>
+        <div class="subtitle" id="level-intro-text">Уровень 1</div>
+        <button class="btn btn-primary" id="btn-level-start">В БОЙ</button>
+      </div>
+    </div>
+
+    <!-- Victory screen -->
+    <div id="victory" class="screen hidden">
+      <div class="screen-content">
+        <h1 class="title title-win">ПОБЕДА</h1>
+        <div class="subtitle" id="victory-reward">+50 монет</div>
+        <button class="btn btn-primary" id="btn-next">ДАЛЬШЕ</button>
+        <button class="btn btn-reward" id="btn-double-coins">×2 МОНЕТЫ (реклама)</button>
+      </div>
+    </div>
+
+    <!-- Defeat screen -->
+    <div id="defeat" class="screen hidden">
+      <div class="screen-content">
+        <h1 class="title title-lose">ПОРАЖЕНИЕ</h1>
+        <div class="subtitle" id="defeat-text">Шахтёры победили...</div>
+        <button class="btn btn-reward" id="btn-revive">ПРОДОЛЖИТЬ (реклама)</button>
+        <button class="btn" id="btn-defeat-menu">В МЕНЮ</button>
+      </div>
+    </div>
+
+    <!-- Final boss victory -->
+    <div id="finale" class="screen hidden">
+      <div class="screen-content">
+        <h1 class="title title-win">ИГРА ПРОЙДЕНА!</h1>
+        <div class="subtitle" id="finale-text">Босс повержен. Отряд пингвинов спас антарктическую базу.</div>
+        <button class="btn btn-primary" id="btn-finale-menu">В МЕНЮ</button>
+      </div>
+    </div>
+
+    <!-- Shop screen -->
+    <div id="shop" class="screen hidden">
+      <div class="screen-content shop-content">
+        <h1 class="title">МАГАЗИН</h1>
+        <div class="coin-counter coin-counter-big">
+          <span class="coin-icon">●</span>
+          <span id="shop-coins">0</span>
+        </div>
+        <div class="shop-grid" id="shop-grid"></div>
+        <button class="btn" id="btn-shop-back">НАЗАД</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Game scripts (no modules — single bundle for max compatibility) -->
+  <script src="src/i18n.js"></script>
+  <script src="src/sdk.js"></script>
+  <script src="src/save.js"></script>
+  <script src="src/audio.js"></script>
+  <script src="src/render.js"></script>
+  <script src="src/input.js"></script>
+  <script src="src/entities.js"></script>
+  <script src="src/levels.js"></script>
+  <script src="src/shop.js"></script>
+  <script src="src/game.js"></script>
+</body>
+</html>
