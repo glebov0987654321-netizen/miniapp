@@ -2,17 +2,23 @@
 (function (global) {
   'use strict';
 
-  const STORAGE_KEY = 'pf_save_v1';
+  const STORAGE_KEY = 'pf_save_v2';
 
   const DEFAULT_STATE = {
     coins: 0,
     levelReached: 1,
+    selectedHero: 'h1',
+    ownedHeroes: ['h1'],
     selectedSkin: 'default',
     ownedSkins: ['default'],
     upgrades: {
       damage: 0,
       hp: 0,
       speed: 0,
+    },
+    settings: {
+      sound: true,
+      vibration: true,
     },
     bestScore: 0,
   };
@@ -37,24 +43,34 @@
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     } catch (e) {
-      // private mode, ignore
+      // ignore
     }
   }
 
   function merge(base, incoming) {
-    if (!incoming) return base;
+    if (!incoming) return clone(base);
     const result = clone(base);
+
     Object.keys(incoming).forEach((k) => {
       if (k === 'upgrades' && typeof incoming[k] === 'object') {
         result.upgrades = Object.assign({}, base.upgrades, incoming[k]);
+      } else if (k === 'settings' && typeof incoming[k] === 'object') {
+        result.settings = Object.assign({}, base.settings, incoming[k]);
       } else {
         result[k] = incoming[k];
       }
     });
-    // Make sure default skin is always owned.
-    if (!result.ownedSkins.includes('default')) {
-      result.ownedSkins.push('default');
+
+    if (!Array.isArray(result.ownedHeroes)) result.ownedHeroes = ['h1'];
+    if (!result.ownedHeroes.includes('h1')) result.ownedHeroes.unshift('h1');
+    if (!result.selectedHero || !result.ownedHeroes.includes(result.selectedHero)) {
+      result.selectedHero = result.ownedHeroes[0] || 'h1';
     }
+
+    if (!Array.isArray(result.ownedSkins)) result.ownedSkins = ['default'];
+    if (!result.ownedSkins.includes('default')) result.ownedSkins.push('default');
+    if (!result.selectedSkin) result.selectedSkin = 'default';
+
     return result;
   }
 
@@ -68,9 +84,12 @@
       const remote = await global.YGSDK.cloudLoad();
       if (remote && typeof remote === 'object') {
         cache = merge(cache, remote);
-        // Persist merged result back to local for offline play.
         localSave(cache);
       }
+    }
+
+    if (global.SFX) {
+      global.SFX.setMuted(!cache.settings.sound);
     }
     return cache;
   }
@@ -106,6 +125,22 @@
     }
   }
 
+  function selectHero(id) {
+    if (cache.ownedHeroes.includes(id)) {
+      cache.selectedHero = id;
+      save();
+      return true;
+    }
+    return false;
+  }
+
+  function ownHero(id) {
+    if (!cache.ownedHeroes.includes(id)) {
+      cache.ownedHeroes.push(id);
+      save();
+    }
+  }
+
   function selectSkin(id) {
     if (cache.ownedSkins.includes(id)) {
       cache.selectedSkin = id;
@@ -128,8 +163,20 @@
     save();
   }
 
+  function setSetting(name, value) {
+    if (!(name in cache.settings)) return;
+    cache.settings[name] = !!value;
+    if (name === 'sound' && global.SFX) {
+      global.SFX.setMuted(!cache.settings.sound);
+    }
+    save();
+  }
+
   function reset() {
     cache = clone(DEFAULT_STATE);
+    if (global.SFX) {
+      global.SFX.setMuted(!cache.settings.sound);
+    }
     save();
   }
 
@@ -147,9 +194,12 @@
     setCoins,
     addCoins,
     setLevelReached,
+    selectHero,
+    ownHero,
     selectSkin,
     ownSkin,
     upgrade,
+    setSetting,
     reset,
     setBestScore,
   };
