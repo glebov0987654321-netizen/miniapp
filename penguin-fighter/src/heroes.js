@@ -1,4 +1,4 @@
-// Hero registry — 7 unlockable photo heroes with different attack types.
+// Hero registry — 4 unlockable photo heroes with different attack types.
 (function (global) {
   'use strict';
 
@@ -11,8 +11,8 @@
       weaponKey: 'weapon_claws',
       unlock: { level: 0, price: 0 },
       sprite: 'assets/heroes/h1.png',
-      fallbackSkin: 'ninja',
-      stats: { hpMul: 0.95, dmgMul: 1.15, speedMul: 1.08, coinMul: 0 },
+      fallbackSkin: 'default',
+      stats: { hpMul: 1.0, dmgMul: 1.0, speedMul: 1.0, coinMul: 0 },
     },
     {
       id: 'h2',
@@ -21,9 +21,9 @@
       attack: 'pistol',
       weaponKey: 'weapon_pistol',
       unlock: { level: 1, price: 40 },
-      sprite: '',
-      fallbackSkin: 'default',
-      stats: { hpMul: 1.05, dmgMul: 1.0, speedMul: 1.0, coinMul: 0 },
+      sprite: 'assets/heroes/h2.png',
+      fallbackSkin: 'arctic',
+      stats: { hpMul: 1.15, dmgMul: 1.05, speedMul: 0.95, coinMul: 0.05 },
     },
     {
       id: 'h3',
@@ -31,10 +31,10 @@
       descKey: 'hero_h3_desc',
       attack: 'feather',
       weaponKey: 'weapon_feather',
-      unlock: { level: 2, price: 90 },
+      unlock: { level: 2, price: 100 },
       sprite: 'assets/heroes/h3.png',
-      fallbackSkin: 'arctic',
-      stats: { hpMul: 1.1, dmgMul: 0.95, speedMul: 1.02, coinMul: 0.08 },
+      fallbackSkin: 'ninja',
+      stats: { hpMul: 0.9, dmgMul: 1.1, speedMul: 1.15, coinMul: 0.1 },
     },
     {
       id: 'h4',
@@ -42,43 +42,10 @@
       descKey: 'hero_h4_desc',
       attack: 'laser',
       weaponKey: 'weapon_laser',
-      unlock: { level: 3, price: 170 },
+      unlock: { level: 3, price: 200 },
       sprite: 'assets/heroes/h4.png',
       fallbackSkin: 'fire',
-      stats: { hpMul: 1.0, dmgMul: 1.25, speedMul: 0.95, coinMul: 0 },
-    },
-    {
-      id: 'h5',
-      nameKey: 'hero_h5_name',
-      descKey: 'hero_h5_desc',
-      attack: 'spray',
-      weaponKey: 'weapon_spray',
-      unlock: { level: 4, price: 280 },
-      sprite: 'assets/heroes/h5.png',
-      fallbackSkin: 'golden',
-      stats: { hpMul: 0.9, dmgMul: 1.0, speedMul: 1.15, coinMul: 0.05 },
-    },
-    {
-      id: 'h6',
-      nameKey: 'hero_h6_name',
-      descKey: 'hero_h6_desc',
-      attack: 'ice',
-      weaponKey: 'weapon_ice',
-      unlock: { level: 5, price: 420 },
-      sprite: '',
-      fallbackSkin: 'arctic',
-      stats: { hpMul: 1.05, dmgMul: 1.15, speedMul: 0.98, coinMul: 0.1 },
-    },
-    {
-      id: 'h7',
-      nameKey: 'hero_h7_name',
-      descKey: 'hero_h7_desc',
-      attack: 'cash',
-      weaponKey: 'weapon_cash',
-      unlock: { level: 6, price: 600 },
-      sprite: '',
-      fallbackSkin: 'golden',
-      stats: { hpMul: 1.0, dmgMul: 1.1, speedMul: 1.05, coinMul: 0.25 },
+      stats: { hpMul: 1.2, dmgMul: 1.3, speedMul: 0.9, coinMul: 0.15 },
     },
   ];
 
