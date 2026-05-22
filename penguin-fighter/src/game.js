@@ -61,12 +61,16 @@
     requestAnimationFrame(loop);
   }
 
-  function showMobileControlsIfTouch() {
+  function isTouchDevice() {
     const coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
-    const isTouch = coarse || ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+    return coarse || ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+  }
+
+  function showMobileControlsIfTouch() {
     const controls = document.getElementById('touch-controls');
     if (!controls) return;
-    controls.classList.toggle('hidden', !isTouch);
+    const shouldShow = isTouchDevice() && game.state === STATES.PLAYING;
+    controls.classList.toggle('hidden', !shouldShow);
   }
 
   function setupUI() {
@@ -322,10 +326,12 @@
     if (next === STATES.PLAYING) {
       hud.classList.remove('hidden');
       global.YGSDK.hideBanner();
+      showMobileControlsIfTouch();
       return;
     }
 
     hud.classList.add('hidden');
+    showMobileControlsIfTouch();
     if (next !== STATES.LEVEL_INTRO) global.YGSDK.showBanner();
     const id = screenIds[next];
     if (id) document.getElementById(id).classList.remove('hidden');

@@ -30,10 +30,10 @@
           {
             type: 'boss',
             x: 1050,
-            w: 150,
-            h: 200,
-            hp: 320,
-            dmg: 20,
+            w: 220,
+            h: 260,
+            hp: 700,
+            dmg: 22,
             speed: 170,
             coins: 60,
             boss: true,
@@ -45,21 +45,21 @@
     let count, baseHp, baseDmg, baseSpeed, baseCoins, bonus;
     if (n <= 3) {
       count = 1 + Math.floor((n - 1) / 2);
-      baseHp = 28 + n * 6;
+      baseHp = 70 + n * 18;
       baseDmg = 7 + n * 1;
       baseSpeed = 120 + n * 8;
       baseCoins = 6 + n;
       bonus = 15 + n * 5;
     } else if (n <= 6) {
       count = 2 + (n - 4);
-      baseHp = 42 + n * 8;
+      baseHp = 110 + n * 22;
       baseDmg = 10 + n * 1;
       baseSpeed = 140 + n * 8;
       baseCoins = 8 + n;
       bonus = 30 + n * 6;
     } else {
       count = 3 + (n - 7);
-      baseHp = 60 + n * 9;
+      baseHp = 170 + n * 26;
       baseDmg = 12 + n * 2;
       baseSpeed = 170 + n * 8;
       baseCoins = 10 + n;
@@ -70,7 +70,9 @@
     for (let i = 0; i < count; i++) {
       enemies.push({
         type: enemyType,
-        x: 1000 + i * 110,
+        x: 1000 + i * 140,
+        w: 150,
+        h: 180,
         hp: baseHp,
         dmg: baseDmg,
         speed: baseSpeed,
