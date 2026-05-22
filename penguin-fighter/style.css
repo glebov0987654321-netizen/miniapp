@@ -65,9 +65,9 @@ html, body {
 
 #hud {
   position: fixed;
-  top: 14px;
-  left: 14px;
-  right: 14px;
+  top: max(20px, env(safe-area-inset-top, 20px));
+  left: 5vw;
+  right: 5vw;
   pointer-events: none;
   z-index: 9998;
 }
@@ -321,8 +321,8 @@ html, body {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 16px;
-  padding: 0 16px;
+  bottom: max(20px, env(safe-area-inset-bottom, 20px));
+  padding: 0 max(24px, 4vw);
   display: flex;
   justify-content: space-between;
   pointer-events: none;

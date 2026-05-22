@@ -496,10 +496,10 @@
       canvas.width = targetW;
       canvas.height = targetH;
     }
-    const scale = Math.min(canvas.width / global.Entities.WORLD_W, canvas.height / global.Entities.WORLD_H);
-    const offX = (canvas.width - global.Entities.WORLD_W * scale) / 2;
-    const offY = (canvas.height - global.Entities.WORLD_H * scale) / 2;
-    game.ctx.setTransform(scale, 0, 0, scale, offX, offY);
+    // Stretch the world to fully cover the canvas — no letterbox on any aspect.
+    const sx = canvas.width / global.Entities.WORLD_W;
+    const sy = canvas.height / global.Entities.WORLD_H;
+    game.ctx.setTransform(sx, 0, 0, sy, 0, 0);
   }
 
   function loop(t) {
