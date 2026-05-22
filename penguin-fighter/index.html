@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <title>3 СМЕНА</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="/sdk.js"></script>
+</head>
+<body>
+  <div id="loader">
+    <div class="loader-spinner"></div>
+    <div class="loader-text" id="loader-text">Загрузка...</div>
+  </div>
+
+  <div id="rotate-overlay">
+    <div class="rotate-icon">📱↻</div>
+    <div class="rotate-text" id="rotate-text">Поверни телефон в горизонтальный режим</div>
+  </div>
+
+  <div id="app" class="hidden">
+    <canvas id="game" width="1280" height="720"></canvas>
+
+    <div id="hud" class="hidden">
+      <div class="hud-row">
+        <div class="hp-bar"><div class="hp-fill" id="hp-fill"></div></div>
+        <div class="coin-counter">
+          <span class="coin-icon">●</span>
+          <span id="coin-count">0</span>
+        </div>
+        <div class="level-label" id="level-label">Уровень 1</div>
+      </div>
+    </div>
+
+    <div id="touch-controls" class="hidden">
+      <div class="touch-left">
+        <button class="tbtn" id="btn-left">◀</button>
+        <button class="tbtn" id="btn-right">▶</button>
+      </div>
+      <div class="touch-right">
+        <button class="tbtn" id="btn-jump">▲</button>
+        <button class="tbtn tbtn-attack" id="btn-attack">⚔</button>
+      </div>
+    </div>
+
+    <div id="menu" class="screen">
+      <div class="menu-floating menu-floating-a"></div>
+      <div class="menu-floating menu-floating-b"></div>
+      <div class="screen-content menu-content">
+        <div class="menu-topline">
+          <div class="coin-counter coin-counter-big">
+            <span class="coin-icon">●</span>
+            <span id="menu-coins">0</span>
+          </div>
+          <div class="level-label" id="menu-hero-name">Герой</div>
+        </div>
+        <h1 class="title title-horror" id="menu-title">3 СМЕНА</h1>
+        <div class="subtitle" id="menu-subtitle">Собери отряд, покупай героев и проходи уровни</div>
+        <button class="btn btn-primary" id="btn-play">ИГРАТЬ</button>
+        <button class="btn" id="btn-shop">ГЕРОИ И ПРОКАЧКА</button>
+        <button class="btn" id="btn-settings">НАСТРОЙКИ</button>
+        <div class="hint" id="menu-hint">Стрелки или A/D — движение, Space — атака, W — прыжок</div>
+      </div>
+    </div>
+
+    <div id="level-select" class="screen hidden">
+      <div class="screen-content level-select-content">
+        <h1 class="title" id="level-select-title">ВЫБЕРИ УРОВЕНЬ</h1>
+        <div class="level-select-sub" id="level-select-sub">Открой все 10 уровней</div>
+        <div class="level-grid" id="level-grid"></div>
+        <button class="btn" id="btn-level-select-back">НАЗАД</button>
+      </div>
+    </div>
+
+    <div id="level-intro" class="screen hidden">
+      <div class="screen-content">
+        <div class="level-big" id="level-intro-num">1</div>
+        <div class="subtitle" id="level-intro-text">Уровень 1</div>
+        <button class="btn btn-primary" id="btn-level-start">В БОЙ</button>
+        <button class="btn" id="btn-level-intro-back">НАЗАД</button>
+      </div>
+    </div>
+
+    <div id="victory" class="screen hidden">
+      <div class="screen-content">
+        <h1 class="title title-win">ПОБЕДА</h1>
+        <div class="subtitle" id="victory-reward">+50 монет</div>
+        <button class="btn btn-primary" id="btn-next">ДАЛЬШЕ</button>
+        <button class="btn btn-reward" id="btn-double-coins">×2 МОНЕТЫ (реклама)</button>
+      </div>
+    </div>
+
+    <div id="defeat" class="screen hidden">
+      <div class="screen-content">
+        <h1 class="title title-lose">ПОРАЖЕНИЕ</h1>
+        <div class="subtitle" id="defeat-text">Попробуй ещё раз</div>
+        <button class="btn btn-reward" id="btn-revive">ПРОДОЛЖИТЬ (реклама)</button>
+        <button class="btn" id="btn-defeat-menu">В МЕНЮ</button>
+      </div>
+    </div>
+
+    <div id="finale" class="screen hidden">
+      <div class="screen-content">
+        <h1 class="title title-win">ИГРА ПРОЙДЕНА!</h1>
+        <div class="subtitle" id="finale-text">Финальный босс повержен.</div>
+        <button class="btn btn-primary" id="btn-finale-menu">В МЕНЮ</button>
+      </div>
+    </div>
+
+    <div id="shop" class="screen hidden">
+      <div class="screen-content shop-content">
+        <h1 class="title" id="shop-title">ГЕРОИ И ПРОКАЧКА</h1>
+        <div class="coin-counter coin-counter-big">
+          <span class="coin-icon">●</span>
+          <span id="shop-coins">0</span>
+        </div>
+        <div class="shop-grid" id="shop-grid"></div>
+        <button class="btn" id="btn-shop-back">НАЗАД</button>
+      </div>
+    </div>
+
+    <div id="settings" class="screen hidden">
+      <div class="screen-content settings-content">
+        <h1 class="title" id="settings-title">НАСТРОЙКИ</h1>
+        <div class="settings-list">
+          <button class="btn" id="btn-toggle-sound">ЗВУК: ON</button>
+          <button class="btn" id="btn-toggle-vibration">ВИБРАЦИЯ: ON</button>
+          <button class="btn" id="btn-lang">ЯЗЫК: RU / EN</button>
+          <button class="btn btn-danger" id="btn-reset-progress">СБРОСИТЬ ПРОГРЕСС</button>
+        </div>
+        <button class="btn" id="btn-settings-back">НАЗАД</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="src/i18n.js"></script>
+  <script src="src/sdk.js"></script>
+  <script src="src/save.js"></script>
+  <script src="src/audio.js"></script>
+  <script src="src/sprites.js"></script>
+  <script src="src/heroes.js"></script>
+  <script src="src/enemy-types.js"></script>
+  <script src="src/render.js"></script>
+  <script src="src/input.js"></script>
+  <script src="src/entities.js"></script>
+  <script src="src/levels.js"></script>
+  <script src="src/shop.js"></script>
+  <script src="src/game.js"></script>
+</body>
+</html>
