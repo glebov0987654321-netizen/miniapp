@@ -176,7 +176,7 @@
       this.alive = true;
       this.coinReward = opts.coins || 5;
       this.isBoss = !!opts.boss;
-      this.spriteId = this.isBoss ? 'boss1' : null;
+      this.spriteId = (this.visual && this.visual.spriteId) || (this.isBoss ? 'boss1' : null);
     }
 
     rect() {

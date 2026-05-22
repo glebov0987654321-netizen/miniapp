@@ -36,6 +36,12 @@
 
     await global.Save.load();
     global.Sprites.preloadAll(global.Heroes.HERO_MANIFEST);
+    global.Sprites.preloadAll(global.EnemyTypes.ENEMY_MANIFEST);
+    global.Sprites.preloadAll({
+      bg1: 'assets/backgrounds/bg1.jpg',
+      bg2: 'assets/backgrounds/bg2.jpg',
+      bg3: 'assets/backgrounds/bg3.jpg',
+    });
 
     game.canvas = document.getElementById('game');
     game.ctx = game.canvas.getContext('2d');

@@ -320,6 +320,26 @@
   }
 
   function drawBackground(ctx, w, h, level) {
+    const bgId = level >= 7 ? 'bg3' : level >= 4 ? 'bg2' : 'bg1';
+    const bgImg = global.Sprites && global.Sprites.get(bgId);
+    if (bgImg) {
+      // cover the canvas keeping aspect ratio
+      const iw = bgImg.naturalWidth || bgImg.width;
+      const ih = bgImg.naturalHeight || bgImg.height;
+      const scale = Math.max(w / iw, h / ih);
+      const dw = iw * scale;
+      const dh = ih * scale;
+      const dx = (w - dw) / 2;
+      const dy = (h - dh) / 2;
+      ctx.drawImage(bgImg, dx, dy, dw, dh);
+      // dim overlay so heroes/enemies pop and the photo feels "horror-school"
+      ctx.fillStyle = 'rgba(8, 12, 26, 0.45)';
+      ctx.fillRect(0, 0, w, h);
+      // ground strip so the floor reads clearly
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.55)';
+      ctx.fillRect(0, h * 0.78, w, h * 0.22);
+      return;
+    }
     const tint = backgroundTint(level);
     const grad = ctx.createLinearGradient(0, 0, 0, h);
     grad.addColorStop(0, tint.skyTop);
