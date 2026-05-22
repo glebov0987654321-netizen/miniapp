@@ -47,11 +47,16 @@
     document.getElementById('loader').classList.add('hidden');
     document.getElementById('app').classList.remove('hidden');
     global.YGSDK.showBanner();
+    window.addEventListener('orientationchange', showMobileControlsIfTouch);
+    if (window.matchMedia) {
+      window.matchMedia('(orientation: landscape)').addEventListener('change', showMobileControlsIfTouch);
+    }
     requestAnimationFrame(loop);
   }
 
   function showMobileControlsIfTouch() {
-    const isTouch = ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
+    const coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
+    const isTouch = coarse || ('ontouchstart' in window) || navigator.maxTouchPoints > 0;
     const controls = document.getElementById('touch-controls');
     if (!controls) return;
     controls.classList.toggle('hidden', !isTouch);
@@ -193,6 +198,8 @@
     document.getElementById('btn-toggle-vibration').textContent = settings.vibration ? t('vibration_on') : t('vibration_off');
     document.getElementById('btn-lang').textContent = t('language_toggle');
     document.getElementById('btn-reset-progress').textContent = t('reset_progress');
+    const rotateText = document.getElementById('rotate-text');
+    if (rotateText) rotateText.textContent = t('rotate_phone');
     updateLevelLabel();
     updateCoinHud();
   }

@@ -5,6 +5,7 @@
   const STRINGS = {
     ru: {
       loading: 'ЗАГРУЗКА',
+      rotate_phone: 'Поверни телефон в горизонтальный режим',
       menu_subtitle: 'Собери отряд, покупай героев и проходи уровни',
       menu_play: 'ИГРАТЬ',
       menu_shop: 'ГЕРОИ И ПРОКАЧКА',
@@ -81,6 +82,7 @@
     },
     en: {
       loading: 'LOADING',
+      rotate_phone: 'Rotate your phone to landscape',
       menu_subtitle: 'Build your squad, buy heroes and clear all levels',
       menu_play: 'PLAY',
       menu_shop: 'HEROES & UPGRADES',
