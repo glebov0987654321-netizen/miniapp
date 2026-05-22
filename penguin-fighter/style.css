@@ -10,7 +10,7 @@ html, body {
   width: 100%;
   overflow: hidden;
   font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background: #071626;
+  background: #050912;
   color: #fff;
   user-select: none;
   touch-action: none;
@@ -25,7 +25,7 @@ html, body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at top, #8ddcff, #1b2d6b 55%, #0b142a 100%);
+  background: #050912;
   z-index: 100;
 }
 
@@ -51,25 +51,23 @@ html, body {
 #app {
   position: fixed;
   inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(circle at top, #8ddcff, #1b2d6b 55%, #0b142a 100%);
+  background: #050912;
 }
 
 #game {
   display: block;
-  width: 100vw;
-  height: 100vh;
-  max-width: 100vw;
-  max-height: 100vh;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: #050912;
 }
 
 #hud {
   position: fixed;
-  top: 12px;
-  left: 12px;
-  right: 12px;
+  top: 14px;
+  left: 14px;
+  right: 14px;
   pointer-events: none;
   z-index: 9998;
 }
@@ -77,19 +75,19 @@ html, body {
 .hud-row {
   display: flex;
   gap: 12px;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
 }
 
 .hp-bar {
-  flex: 0 0 260px;
-  height: 24px;
-  background: rgba(0,0,0,0.35);
-  border: 2px solid rgba(255,255,255,0.55);
+  flex: 0 0 220px;
+  height: 26px;
+  background: rgba(0,0,0,0.55);
+  border: 2px solid rgba(255,255,255,0.65);
   border-radius: 999px;
   overflow: hidden;
-  box-shadow: inset 0 2px 8px rgba(0,0,0,0.25);
+  box-shadow: inset 0 2px 8px rgba(0,0,0,0.35), 0 4px 18px rgba(0,0,0,0.4);
 }
 
 .hp-fill {
@@ -432,15 +430,23 @@ html, body {
 }
 
 @media (max-width: 768px) {
-  .hp-bar { flex: 1 1 150px; }
-  .coin-counter, .level-label { font-size: 13px; padding: 6px 10px; }
-  .tbtn { width: 58px; height: 58px; font-size: 24px; }
+  .hp-bar { flex: 0 0 38vw; height: 22px; }
+  .coin-counter, .level-label { font-size: 15px; padding: 8px 14px; }
+  .tbtn { width: 88px; height: 88px; font-size: 36px; }
   .screen-content { padding: 22px 16px; }
 }
 
 @media (max-height: 520px) and (orientation: landscape) {
-  #touch-controls { bottom: 10px; }
+  #touch-controls { bottom: 14px; padding: 0 22px; }
+  .tbtn { width: 78px; height: 78px; font-size: 32px; }
+  .hp-bar { flex: 0 0 28vw; }
   .screen-content { padding: 18px; }
+}
+
+/* Pointer-coarse (mobile/tablet) — bigger touch targets in both orientations */
+@media (pointer: coarse) {
+  .tbtn { width: 92px; height: 92px; font-size: 38px; border-width: 3px; }
+  .touch-left, .touch-right { gap: 16px; }
 }
 
 #rotate-overlay {
