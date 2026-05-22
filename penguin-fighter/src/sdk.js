@@ -5,6 +5,7 @@
   'use strict';
 
   const TAG = '[YGSDK]';
+  const APP_ID = '533445';
 
   const state = {
     ysdk: null,
@@ -12,6 +13,7 @@
     leaderboards: null,
     ready: false,
     isReal: false,
+    appId: APP_ID,
     lang: 'ru',
     canShowFullscreen: true, // throttle (Yandex enforces 60s cooldown on fullscreen)
     fullscreenCooldownMs: 60000,
@@ -282,6 +284,10 @@
     return state.isReal;
   }
 
+  function getAppId() {
+    return APP_ID;
+  }
+
   global.YGSDK = {
     init,
     showFullscreenAd,
@@ -292,7 +298,9 @@
     cloudLoad,
     submitLeaderboard,
     getLang,
+    getAppId,
     isReal,
+    APP_ID,
     get lang() {
       return state.lang;
     },
