@@ -21,7 +21,7 @@
       attack: 'pistol',
       weaponKey: 'weapon_pistol',
       unlock: { level: 1, price: 40 },
-      sprite: 'assets/heroes/h2.png',
+      sprite: '',
       fallbackSkin: 'default',
       stats: { hpMul: 1.05, dmgMul: 1.0, speedMul: 1.0, coinMul: 0 },
     },
@@ -65,7 +65,7 @@
       attack: 'ice',
       weaponKey: 'weapon_ice',
       unlock: { level: 5, price: 420 },
-      sprite: 'assets/heroes/h6.png',
+      sprite: '',
       fallbackSkin: 'arctic',
       stats: { hpMul: 1.05, dmgMul: 1.15, speedMul: 0.98, coinMul: 0.1 },
     },
@@ -76,7 +76,7 @@
       attack: 'cash',
       weaponKey: 'weapon_cash',
       unlock: { level: 6, price: 600 },
-      sprite: 'assets/heroes/h7.png',
+      sprite: '',
       fallbackSkin: 'golden',
       stats: { hpMul: 1.0, dmgMul: 1.1, speedMul: 1.05, coinMul: 0.25 },
     },
@@ -84,7 +84,7 @@
 
   const HERO_MANIFEST = {};
   HEROES.forEach((hero) => {
-    HERO_MANIFEST[hero.id] = hero.sprite;
+    if (hero.sprite) HERO_MANIFEST[hero.id] = hero.sprite;
   });
   HERO_MANIFEST.boss1 = 'assets/bosses/boss1.png';
 

@@ -4,6 +4,7 @@
 
   const STATES = {
     MENU: 'menu',
+    LEVEL_SELECT: 'level-select',
     LEVEL_INTRO: 'level-intro',
     PLAYING: 'playing',
     VICTORY: 'victory',
@@ -66,8 +67,17 @@
     document.getElementById('btn-play').addEventListener('click', () => {
       global.SFX.resumeOnGesture();
       global.SFX.click();
-      game.levelNum = clampLevel(global.Save.get().levelReached || 1);
-      enterState(STATES.LEVEL_INTRO);
+      enterState(STATES.LEVEL_SELECT);
+    });
+
+    document.getElementById('btn-level-select-back').addEventListener('click', () => {
+      global.SFX.click();
+      enterState(STATES.MENU);
+    });
+
+    document.getElementById('btn-level-intro-back').addEventListener('click', () => {
+      global.SFX.click();
+      enterState(STATES.LEVEL_SELECT);
     });
 
     document.getElementById('btn-shop').addEventListener('click', () => {
@@ -92,8 +102,7 @@
         if (next > global.Levels.TOTAL) {
           enterState(STATES.FINALE);
         } else {
-          game.levelNum = next;
-          enterState(STATES.LEVEL_INTRO);
+          enterState(STATES.LEVEL_SELECT);
         }
       });
     });
@@ -140,7 +149,7 @@
       );
     });
 
-    document.getElementById('btn-defeat-menu').addEventListener('click', () => enterState(STATES.MENU));
+    document.getElementById('btn-defeat-menu').addEventListener('click', () => enterState(STATES.LEVEL_SELECT));
     document.getElementById('btn-finale-menu').addEventListener('click', () => enterState(STATES.MENU));
     document.getElementById('btn-shop-back').addEventListener('click', () => enterState(STATES.MENU));
     document.getElementById('btn-settings-back').addEventListener('click', () => enterState(STATES.MENU));
@@ -150,6 +159,7 @@
       global.I18N.toggleLang();
       applyTranslations();
       if (game.state === STATES.SHOP) global.Shop.renderShop();
+      if (game.state === STATES.LEVEL_SELECT) renderLevelGrid();
     });
 
     document.getElementById('btn-toggle-sound').addEventListener('click', () => {
@@ -200,8 +210,58 @@
     document.getElementById('btn-reset-progress').textContent = t('reset_progress');
     const rotateText = document.getElementById('rotate-text');
     if (rotateText) rotateText.textContent = t('rotate_phone');
+    const lsTitle = document.getElementById('level-select-title');
+    if (lsTitle) lsTitle.textContent = t('level_select_title');
+    const lsSub = document.getElementById('level-select-sub');
+    if (lsSub) lsSub.textContent = t('level_select_sub');
+    const lsBack = document.getElementById('btn-level-select-back');
+    if (lsBack) lsBack.textContent = t('back');
+    const liBack = document.getElementById('btn-level-intro-back');
+    if (liBack) liBack.textContent = t('back');
     updateLevelLabel();
     updateCoinHud();
+  }
+
+  function renderLevelGrid() {
+    const grid = document.getElementById('level-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    const t = global.I18N.t;
+    const save = global.Save.get();
+    const reached = clampLevel(save.levelReached || 1);
+    const total = global.Levels.TOTAL;
+    for (let i = 1; i <= total; i++) {
+      const tile = document.createElement('button');
+      tile.className = 'level-tile';
+      const unlocked = i <= reached;
+      const cleared = i < reached;
+      const isBoss = i === total;
+      if (cleared) tile.classList.add('cleared');
+      else if (i === reached && unlocked) tile.classList.add('current');
+      if (isBoss) tile.classList.add('boss');
+      tile.disabled = !unlocked;
+      const enemyType = global.Levels.enemyTypeForLevel(i);
+      const subLabel = t('enemy_' + enemyType);
+      tile.innerHTML = `
+        <span class="level-tile-num">${i}</span>
+        <span class="level-tile-sub">${subLabel}</span>
+        ${unlocked ? '' : '<span class="level-tile-lock">🔒</span>'}
+        ${cleared ? '<span class="level-tile-star">★</span>' : ''}
+      `;
+      tile.addEventListener('click', () => {
+        if (!unlocked) return;
+        global.SFX.click();
+        game.levelNum = i;
+        enterState(STATES.LEVEL_INTRO);
+      });
+      grid.appendChild(tile);
+    }
+    const title = document.getElementById('level-select-title');
+    const sub = document.getElementById('level-select-sub');
+    if (title) title.textContent = t('level_select_title');
+    if (sub) sub.textContent = t('level_select_sub');
+    const back = document.getElementById('btn-level-select-back');
+    if (back) back.textContent = t('back');
   }
 
   function updateLevelLabel() {
@@ -232,6 +292,7 @@
 
   const screenIds = {
     [STATES.MENU]: 'menu',
+    [STATES.LEVEL_SELECT]: 'level-select',
     [STATES.LEVEL_INTRO]: 'level-intro',
     [STATES.VICTORY]: 'victory',
     [STATES.DEFEAT]: 'defeat',
@@ -272,6 +333,7 @@
 
     if (next === STATES.SHOP) global.Shop.renderShop();
     if (next === STATES.SETTINGS) applyTranslations();
+    if (next === STATES.LEVEL_SELECT) renderLevelGrid();
     if (next === STATES.VICTORY) {
       const btn = document.getElementById('btn-double-coins');
       document.getElementById('victory-reward').textContent = global.I18N.t('victory_reward_format', { n: game.pendingReward });
